@@ -1,13 +1,22 @@
 import express from "express";
+import authRoutes from "./routes/authRoutes";
+import cors from "cors";
 import { prisma } from "../lib/prisma.ts";
 import notesServiceRoutes from "./routes/notesServiceRoutes";
 const app = express();
 const PORT = 3000;
 
+
+
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:3000"],
+  credentials: true,
+}));
 //Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));  
 app.use("/api", notesServiceRoutes);
+app.use("/api", authRoutes);
 
 // async function main() {
 //   // Create a new user with a post if they don't exist
